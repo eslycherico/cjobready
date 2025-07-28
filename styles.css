@@ -1,0 +1,504 @@
+/*
+ * Global styles for Cjobready website.
+ * Uses a dark background palette with purple and blue accents, matching
+ * the provided logo and colour scheme.
+ */
+
+:root {
+  /* Colour palette derived from the provided moodboard.  
+   * Background: deep navy for the overall canvas;
+   * Foreground: soft lavender used for highlights and headings;
+   * Accent colours: varying blues to provide depth and variation;
+   * Light: off‑white text to ensure high contrast. */
+  --bg-color: #070c23;
+  --foreground: #a37ae3;
+  --accent1: #5166d4;
+  --accent2: #4e5fb8;
+  --accent3: #4b589b;
+  --light: #f5f5ff;
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-sans: 'Montserrat', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-color);
+  /* Use a slightly desaturated light tone for body copy to reduce eye strain
+     against the dark background. */
+  color: #d7daf0;
+  font-family: var(--font-sans);
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-serif);
+  margin: 0 0 1rem 0;
+  color: var(--foreground);
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header */
+.site-header {
+  background-color: var(--bg-color);
+  padding: 0.75rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand img {
+  /* Hide the logo in the header; it will be displayed in the body instead */
+  display: none;
+}
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.main-nav a {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  color: var(--accent2);
+  position: relative;
+  padding: 0.25rem 0;
+  transition: color 0.3s ease;
+}
+.main-nav a.active,
+.main-nav a:hover {
+  color: var(--foreground);
+}
+.main-nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--foreground);
+  transition: width 0.3s ease;
+}
+.main-nav a:hover::after,
+.main-nav a.active::after {
+  width: 100%;
+}
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  width: 30px;
+  height: 24px;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.nav-toggle span {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background-color: var(--foreground);
+  border-radius: 1px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.nav-toggle.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.nav-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+.nav-toggle.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Hero */
+.hero-section {
+  padding: 6rem 0;
+  /* Composite background: gradient for the left side and an abstract
+     decorative image on the right. The image is drawn second so it
+     appears on top of the gradient. */
+  background: 
+    linear-gradient(135deg, var(--bg-color) 0%, #0a1540 100%),
+    url('hero_bg.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center right;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Decorative C background image used on the home page. Positioned
+   absolutely to sit behind the circular portrait without interfering
+   with the layout. */
+
+.hero-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.hero-text {
+  flex: 1;
+  max-width: 600px;
+}
+
+.hero-text h1 {
+  /* Increase the size of the hero heading so that it makes a stronger first
+     impression. This works with the slow word-by-word animation defined in
+     the JavaScript. */
+  font-size: 4rem;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  /* The main heading uses the foreground colour; individual words fade in via
+     JavaScript splitting. */
+  color: var(--foreground);
+}
+.hero-text p {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  color: #c5c9e4;
+}
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.hero-image {
+  flex: 1;
+  position: relative;
+  max-width: 400px;
+  /* Fix the height to create a balanced circular portrait that crops
+     out most of the busy office background. The overflow hidden and
+     border-radius create a 2D, cut‑out effect that focuses on the subject. */
+  height: 450px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+.hero-image img {
+  width: 100%;
+  height: 100%;
+  /* Object fit and position ensure the photo fills the circle while
+     centring on Elsy's face and upper torso. */
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 0;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.3s ease;
+}
+.hero-image::before {
+  content: none;
+}
+
+/* Large C icon in the hero section background. It is positioned absolute
+   relative to the hero section so it sits behind the portrait and
+   headline. */
+.hero-section::before {
+  /* Remove the decorative C icon from the hero background.  Setting
+     content to none disables the pseudo-element entirely while
+     preserving the gradient and abstract image specified on the
+     parent .hero-section. */
+  content: none;
+}
+
+.hero-image:hover img {
+  transform: scale(1.05);
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+.btn-primary {
+  background-color: var(--foreground);
+  color: var(--bg-color);
+}
+.btn-primary:hover {
+  background-color: var(--accent1);
+  color: var(--bg-color);
+}
+.btn-outline {
+  border: 2px solid var(--foreground);
+  color: var(--foreground);
+  background-color: transparent;
+}
+.btn-outline:hover {
+  background-color: var(--accent1);
+  border-color: var(--accent1);
+  color: var(--bg-color);
+}
+
+/* Sections */
+.section {
+  padding: 5rem 0;
+}
+
+/* About page */
+.about-section .flex-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: center;
+}
+.about-image {
+  flex: 1;
+  max-width: 400px;
+}
+.about-image img {
+  width: 100%;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+.about-image:hover img {
+  transform: scale(1.05);
+}
+.about-text {
+  flex: 2;
+  color: var(--light);
+}
+
+/* Services */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.service-card {
+  background-color: #0a1540;
+  padding: 2rem;
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+.service-card .icon {
+  font-size: 2rem;
+  color: var(--foreground);
+  margin-bottom: 1rem;
+}
+.service-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: var(--light);
+}
+.service-card p {
+  color: #cfcfe3;
+  font-size: 1rem;
+}
+
+/* Testimonials */
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.testimonial-card {
+  background-color: #0a1540;
+  padding: 2rem;
+  border-radius: 8px;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.testimonial-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+}
+.testimonial-text {
+  font-style: italic;
+  margin-bottom: 1rem;
+  color: #d0d0e8;
+}
+.testimonial-author {
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+/* Contact */
+.contact-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+/* Footer */
+.site-footer {
+  background-color: #0a1540;
+  padding: 1.5rem 0;
+  text-align: center;
+  color: #a3a7c8;
+  font-size: 0.875rem;
+}
+
+/* Social media links displayed in the footer and contact sections.  These
+   use a flex layout to space the links evenly and provide a small hover
+   colour change. */
+.social-links {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  font-size: 1rem;
+}
+.social-links a {
+  color: var(--foreground);
+  display: inline-flex;
+  align-items: center;
+  transition: color 0.3s ease;
+}
+.social-links a:hover {
+  color: var(--accent1);
+}
+
+/* Size and spacing for inline SVG icons within social links */
+.social-links svg {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+/* Body logo displayed below the header for increased prominence */
+.body-logo {
+  text-align: center;
+  margin: 1.5rem 0 0.5rem;
+}
+.body-logo img {
+  /* Enlarge the logo in the body so it stands out more prominently */
+  width: 300px;
+  height: auto;
+}
+
+/* Word-by-word fade-in animation for headings.  
+   Elements wrapped in spans via JavaScript will animate using this keyframe. */
+.word-animate {
+  opacity: 0;
+  transform: translateY(20px);
+  display: inline-block;
+  animation: fadeInUp 0.8s forwards ease-out;
+  /* Provide spacing between words since spaces collapse inside inline
+     elements. With the larger heading size, increase the margin so
+     adjacent words do not run together. */
+  margin-right: 0.5rem;
+}
+
+/* Remove right margin from the last animated word to avoid extra gap */
+.word-animate:last-child {
+  margin-right: 0;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scroll reveal animations */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+[data-reveal].visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .main-nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: rgba(7, 12, 35, 0.95);
+    backdrop-filter: blur(4px);
+    height: 100vh;
+    width: 220px;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 4rem 1.5rem;
+    gap: 1rem;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+  }
+  .main-nav.active {
+    transform: translateX(0);
+  }
+  .nav-toggle {
+    display: flex;
+  }
+  .header-container {
+    position: relative;
+    z-index: 1100;
+  }
+  .hero-container {
+    flex-direction: column;
+    text-align: center;
+  }
+  .hero-image::before {
+    /* Centre the C icon behind the portrait on small screens and
+       reposition slightly upwards. Increase the size so it still
+       envelops the circular image. */
+    left: 50%;
+    top: -20%;
+    width: 200%;
+    height: 200%;
+    transform: translateX(-50%) rotate(-5deg);
+  }
+  .about-section .flex-row {
+    flex-direction: column;
+    text-align: center;
+  }
+  .services-grid,
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+  .contact-actions {
+    justify-content: center;
+  }
+}
